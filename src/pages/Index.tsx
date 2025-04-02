@@ -107,9 +107,6 @@ const Index = () => {
               onClick={() => navigate("/login")}
             >
               <span className="font-bold">Students</span>
-              <span className="text-xs">
-                Outpass, Mess Menu, Complaints
-              </span>
             </Button>
             
             <Button 
@@ -117,9 +114,6 @@ const Index = () => {
               onClick={() => navigate("/login")}
             >
               <span className="font-bold">Mess Authority</span>
-              <span className="text-xs">
-                Attendance, Menu Management
-              </span>
             </Button>
             
             <Button 
@@ -127,9 +121,6 @@ const Index = () => {
               onClick={() => navigate("/login")}
             >
               <span className="font-bold">Hostel Office</span>
-              <span className="text-xs">
-                Outpass Approval, Complaints
-              </span>
             </Button>
           </div>
           
