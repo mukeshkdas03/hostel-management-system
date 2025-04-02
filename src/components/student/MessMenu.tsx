@@ -18,7 +18,7 @@ export const MessMenu = () => {
   ];
 
   // Get current day
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'lowercase' });
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
   const defaultDay = days.find(day => day.value === today)?.value || "monday";
 
   return (
