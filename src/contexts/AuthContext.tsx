@@ -18,6 +18,8 @@ type AuthContextType = {
     additionalInfo?: any
   ) => Promise<{ success: boolean; message?: string }>;
   resetPassword: (username: string, newPassword: string) => Promise<boolean>;
+  isAuthenticated: () => boolean;
+  getUserRole: () => "student" | "mess" | "hostel" | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,6 +45,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (username: string, password: string) => {
     try {
+      // Add validation
+      if (!username || !password) {
+        toast({
+          title: "Validation error",
+          description: "Username and password are required",
+          variant: "destructive",
+        });
+        return false;
+      }
+
       const loggedInUser = mockAuthService.login(username, password);
       if (loggedInUser) {
         setUser(loggedInUser);
@@ -89,6 +101,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     additionalInfo?: any
   ) => {
     try {
+      // Add validation
+      if (!username || !password || !name || !email) {
+        return { 
+          success: false, 
+          message: "All fields are required" 
+        };
+      }
+      
       const result = mockAuthService.register(
         username,
         password,
@@ -125,6 +145,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const resetPassword = async (username: string, newPassword: string) => {
     try {
+      // Add validation
+      if (!username || !newPassword) {
+        toast({
+          title: "Validation error",
+          description: "Username and new password are required",
+          variant: "destructive",
+        });
+        return false;
+      }
+      
       const success = mockAuthService.resetPassword(username, newPassword);
       
       if (success) {
@@ -152,6 +182,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Add new authentication helper methods
+  const isAuthenticated = () => {
+    return user !== null;
+  };
+
+  const getUserRole = () => {
+    return user ? user.role : null;
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -161,6 +200,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logout,
         register,
         resetPassword,
+        isAuthenticated,
+        getUserRole,
       }}
     >
       {children}
